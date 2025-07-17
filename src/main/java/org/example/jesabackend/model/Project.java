@@ -1,5 +1,6 @@
 package org.example.jesabackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -11,13 +12,18 @@ import java.util.List;
 @Table(name = "projects", uniqueConstraints = {
         @UniqueConstraint(columnNames = "code")
 })
+
 public class Project {
+
+    @OneToMany(mappedBy = "project")
+    @JsonManagedReference // <-- add this here
+    private List<Punch> punches;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     private String code;
 
     @Column(nullable = false)
@@ -27,12 +33,9 @@ public class Project {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
+    @JoinColumn(name = "created_by", nullable = true)
     private User createdBy;
 
-    @OneToMany(mappedBy = "project")
-    @JsonManagedReference
-    private List<Punch> punches;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

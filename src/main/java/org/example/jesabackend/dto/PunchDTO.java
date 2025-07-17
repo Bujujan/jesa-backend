@@ -1,5 +1,13 @@
 package org.example.jesabackend.dto;
 
+import org.example.jesabackend.model.Project;
+import org.example.jesabackend.model.Punch;
+import org.example.jesabackend.repository.ProjectRepository;
+import org.example.jesabackend.service.PunchService;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.time.LocalDateTime;
 
 public class PunchDTO {
@@ -26,6 +34,8 @@ public class PunchDTO {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+
 
     // Getters and setters (or use Lombok @Data to auto-generate)
 

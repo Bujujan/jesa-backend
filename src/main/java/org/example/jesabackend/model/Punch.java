@@ -1,5 +1,6 @@
 package org.example.jesabackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,6 +11,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "punches")
 public class Punch {
+
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    @JsonBackReference // <-- add this here
+    private Project project;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +31,6 @@ public class Punch {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status = Status.OPEN;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id", nullable = false)
-    private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", nullable = false)
